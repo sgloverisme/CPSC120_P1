@@ -1,0 +1,81 @@
+#include <iostream>
+#include <string>
+#include <fstream>
+using namespace std;
+
+int main()
+{
+  ifstream inputFile; //rawdata
+  ofstream newFile; //roster
+  string grade;
+
+  //arrays
+  int id_num[10];
+  string f_name[10];
+  string l_name[10];
+  double dec_score[10];
+  char l_grade[10];
+
+  inputFile.open("RawDataCPSC120.txt"); //opening both files
+  newFile.open("RosterCPSC120.txt");
+    while(inputFile){
+
+//putting ids into array
+        for(int i=0; i<10; i++){
+          inputFile>>id_num[i]>>f_name[i]>>l_name[i]>>dec_score[i];
+
+          if(dec_score[i]==100 || dec_score[i]>=90 && dec_score[i]<100){
+              l_grade[i]='A';
+          }else if(dec_score[i]<=89 && dec_score[i]>=80){
+              l_grade[i]='B';
+          }else if(dec_score[i]<=79 && dec_score[i]>=70){
+              l_grade[i]='C';
+          }else if(dec_score[i]<=69 && dec_score[i]>=60){
+              l_grade[i]='D';
+          }else{
+              l_grade[i]='F';
+          }//end of grading
+
+          newFile<<" "<<id_num[i]<<" "<<f_name[i]<<" "<<l_name[i]<<" "<<l_grade[i]<<endl;
+
+        }//end of for loop
+
+        if(inputFile.eof()){
+            break;
+        }
+
+    } //end of while
+
+    //searching
+            string search;
+            int s;
+            string n;
+            cout<<"If searching by ID, type id (all lowercase)."
+            <<" If searching by name, type name (all lowercase)."<<endl;
+            cin>>search;
+
+              if(search=="id"){
+                cout<<"Please enter the ID number: ";
+                cin>>s;
+                for(int i=0; i<10; i++){
+                  if(s==id_num[i]){
+                    cout<<"Grade: "<<l_grade[i]<<endl;
+                    cout<<"Score: "<<dec_score[i]<<endl;
+                  }//end of if
+
+                }//searching for loop
+              }else{
+                cout<<"Please enter the name with the first letter capital: ";
+                cin>>n;
+                for(int i=0; i<10; i++){
+                  if(n==f_name[i]){
+                    cout<<"Grade: "<<l_grade[i]<<endl;
+                    cout<<"Score: "<<dec_score[i]<<endl;
+                  }//end of if
+
+                }//searching for loop
+              }
+
+     inputFile.close();
+     newFile.close();
+}//end of main
